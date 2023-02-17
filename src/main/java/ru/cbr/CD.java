@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 public class CD {
         public static void main(String[] args) {
-
-           /* String text = "accept " +
+/*
+            String text = "accept " +
                     "accept-charset " +
                     "accesskey " +
                     "action " +
@@ -172,8 +172,10 @@ public class CD {
             String[] s = text.split(" ");
             System.err.println(s.length);
             String collect = Arrays.stream(s)
-                    .map(e -> "tagAttr_" + e.substring(0, 1).toUpperCase() + e.substring(1)).collect(Collectors.joining(", "));
+                    .map(e -> e.trim()).collect(Collectors.joining(", "));
             System.out.print(collect);
+
+
 
             String text = "html " +
                     "head " +
@@ -305,7 +307,8 @@ public class CD {
             System.err.println(s.length);
             String collect = Arrays.stream(s).map(e -> e.trim()).collect(Collectors.joining(", "));
             System.out.print(collect);
-*/
+             */
+
             String text = "accesskey " +
                     "class " +
                     "contenteditable " +
@@ -324,9 +327,7 @@ public class CD {
                     "translate";
             String[] s = text.split(" ");
             System.err.println(s.length);
-            String collect = Arrays.stream(s).map(e -> "globalAttr" + e.substring(0, 1).toUpperCase() + e.substring(1)).collect(Collectors.joining(", "));
+            String collect = Arrays.stream(s).map(e -> e.trim()).collect(Collectors.joining(", "));
             System.out.print(collect);
         }
-
-
 }
