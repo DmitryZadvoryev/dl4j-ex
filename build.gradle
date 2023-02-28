@@ -32,8 +32,6 @@ dependencies {
     implementation 'org.deeplearning4j:deeplearning4j-parallel-wrapper:1.0.0-M2.1'
 
 
-
-
     // https://mvnrepository.com/artifact/com.codeborne/selenide
     implementation 'com.codeborne:selenide:6.11.1'
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
@@ -51,13 +49,15 @@ dependencies {
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     //implementation 'ch.qos.logback:logback-classic:1.4.5'
 
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation 'org.slf4j:slf4j-api:2.0.6'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     implementation 'org.slf4j:slf4j-simple:2.0.6'
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
     //implementation 'org.slf4j:slf4j-nop:2.0.6'
 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
+    implementation 'org.apache.commons:commons-csv:1.9.0'
 
 
 }
