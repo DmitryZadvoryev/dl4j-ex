@@ -33,7 +33,7 @@ public class DataFirstImpl {
 
     private String text;
 
-    private boolean haveText;
+    //private boolean haveText;
 
     private long height, weight;
 
@@ -46,7 +46,7 @@ public class DataFirstImpl {
 
     public DataFirstImpl(String text, long height, long weight, String fullCss, long childCount) {
         this.text = text;
-        this.haveText = Objects.isNull(text);
+        //this.haveText = Objects.isNull(text);
         this.height = height;
         this.weight = weight;
         this.fullCss = fullCss;
@@ -69,7 +69,7 @@ public class DataFirstImpl {
                         attributes,
                         new String[]{
                                 this.text,
-                                Boolean.toString(this.haveText),
+                                //Boolean.toString(this.haveText),
                                 Long.toString(this.height),
                                 Long.toString(this.weight),
                                 this.fullCss,
