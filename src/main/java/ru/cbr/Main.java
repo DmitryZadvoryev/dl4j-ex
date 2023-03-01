@@ -18,9 +18,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static ru.cbr.DataFirstImpl.*;
 
 public class Main {
 
@@ -35,20 +36,21 @@ public class Main {
         FirefoxDriver driver = new FirefoxDriver(options);
         WebDriverRunner.setWebDriver(driver);
         Selenide.open("http://ya.ru");
-        List<DataFirstImpl> parse = Parser.parse();
+        List<DataFirstImpl> dataList = Parser.parse();
 
+        List<String> otherFields = Arrays.asList("text", "haveText", "height", "weight", "fullCss", "childCount");
+        List<String> columnNames = new ArrayList<>(tagKeys.size() + tagAttrKeys.size() + otherFields.size());
+        columnNames.addAll(tagKeys);
+        columnNames.addAll(tagAttrKeys);
+        columnNames.addAll(otherFields);
+        List<String[]> data = dataList.stream().map(DataFirstImpl::toArray).collect(Collectors.toList());
 
-        //Arrays.asList(DataFirstImpl.tagKeys, DataFirstImpl.tagAttrKeys, DataFirstImpl.hasTagAttrKeys, "text", "haveText", "height", "weight", "fullCss","childCount");
-
-
-
-        /*try {
-            CSVWriter writer = new CSVWriter(new FileWriter("yourfile.csv"), '\t');
-            w
-            writer.writeAll(parse);
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(Paths.get(System.getProperty("user.dir"), "build", "test.csv").toFile(), true), ',');
+            writer.writeAll(Collections.singletonList(columnNames.toArray(String[]::new)));
+            writer.writeAll(data);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
-
+            throw new RuntimeException("Не удалось записать данные в CSV-файл");
+        }
     }
 }

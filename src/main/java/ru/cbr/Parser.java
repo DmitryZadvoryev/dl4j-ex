@@ -55,9 +55,10 @@ public class Parser {
                 ArrayList<String> attributeNames = (ArrayList<String>) item.get("attributeNames");
                 WebElement webElement = (WebElement) item.get("element");
                 attributeNames.forEach(a -> {
-                    element.addAttrValue(a, ((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver())
-                            .executeScript("return arguments[0].getAttribute(arguments[1])", webElement, a)).toLowerCase());
-                    element.addHasAttrValue("has_" + a, true);
+                    if (DataFirstImpl.tagAttrKeys.contains(a)) {
+                        element.addAttrValue(a, ((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver())
+                                .executeScript("return arguments[0].getAttribute(arguments[1])", webElement, a)).toLowerCase());
+                    }
                 });
                 element.addTag(((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("return arguments[0].tagName", webElement)).toLowerCase(), true);
                 data.add(element);
