@@ -57,10 +57,10 @@ public class Parser {
                 attributeNames.forEach(a -> {
                     if (DataFirstImpl.tagAttrKeys.contains(a)) {
                         element.addAttrValue(a, ((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver())
-                                .executeScript("return arguments[0].getAttribute(arguments[1])", webElement, a)).toLowerCase());
+                                .executeScript("return arguments[0].getAttribute(arguments[1])", webElement, a)).toLowerCase().replaceAll("\"",""));
                     }
                 });
-                element.addTag(((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("return arguments[0].tagName", webElement)).toLowerCase(), true);
+                element.setTag(((String) ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("return arguments[0].tagName", webElement)).toLowerCase());
                 data.add(element);
             }
             return data;

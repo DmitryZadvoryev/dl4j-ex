@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.deeplearning4j:resources:1.0.0-M2.1'
     // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-parallel-wrapper
     implementation 'org.deeplearning4j:deeplearning4j-parallel-wrapper:1.0.0-M2.1'
+    // https://mvnrepository.com/artifact/org.datavec/datavec-spark
+    implementation 'org.datavec:datavec-spark_2.12:1.0.0-M2.1'
+
 
 
     // https://mvnrepository.com/artifact/com.codeborne/selenide
