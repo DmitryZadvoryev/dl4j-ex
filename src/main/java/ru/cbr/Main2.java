@@ -14,20 +14,9 @@ import org.datavec.api.writable.Writable;
 import org.datavec.spark.transform.SparkTransformExecutor;
 import org.datavec.spark.transform.misc.StringToWritablesFunction;
 import org.datavec.spark.transform.misc.WritablesToStringFunction;
-import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
-import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
-import org.deeplearning4j.models.word2vec.Word2Vec;
-import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
-import org.deeplearning4j.text.sentenceiterator.CollectionSentenceIterator;
-import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
-import org.deeplearning4j.text.sentenceiterator.SentencePreProcessor;
-import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,10 +31,10 @@ import java.util.stream.Collectors;
 import static ru.cbr.DataFirstImpl.tagAttrKeys;
 import static ru.cbr.DataFirstImpl.tagKeys;
 
-public class Main {
+public class Main2 {
 
-    public static void main(String[] args) throws InterruptedException, IOException {
-        /*WebDriverManager driverManager = WebDriverManager.firefoxdriver();
+    public static void main(String[] args) throws InterruptedException {
+        WebDriverManager driverManager = WebDriverManager.firefoxdriver();
         driverManager.cachePath(Paths.get(System.getProperty("user.dir"), "src", "main", "resources").toString());
         driverManager.setup();
         FirefoxOptions options = new FirefoxOptions();
@@ -64,22 +53,24 @@ public class Main {
         List<String> otherFields = Arrays.asList("tag", "text", "heightOfElement", "weightOfElement", "fullCss", "childCount");
         List<String> columnNames = new ArrayList<>(tagAttrKeys.size() + otherFields.size());
         columnNames.addAll(otherFields);
-        columnNames.addAll(1, tagAttrKeys);*/
+        columnNames.addAll(1, tagAttrKeys);
 
-        Path csvInRes = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "csv");
         Path csv = Paths.get(System.getProperty("user.dir"), "build");
         Path input = csv.resolve("input.csv");
         int timestamp = LocalDateTime.now().getNano();
 
-      /*  try (CSVWriter writer = new CSVWriter(new FileWriter(input.toFile()), ',')) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(input.toFile()), ',')) {
+            //writer.writeAll(Collections.singletonList(columnNames.toArray(String[]::new)));
             writer.writeAll(data);
         } catch (IOException e) {
             throw new RuntimeException("Не удалось записать данные в CSV-файл");
-        }*/
+        }
 
+        int numLinesToSkip = 1;
+        String delimiter = ",";
         Path output = csv.resolve("output_" + timestamp + ".csv");
         Schema inputDataSchema = new Schema.Builder()
-                .addColumnString("tag")
+                .addColumnCategorical("tag", tagKeys)
                 .addColumnsString(tagAttrKeys.toArray(String[]::new))
                 .addColumnsString("text")
                 .addColumnLong("heightOfElement")
@@ -89,8 +80,8 @@ public class Main {
                 .build();
 
         TransformProcess tp = new TransformProcess.Builder(inputDataSchema)
-                .removeColumns(tagAttrKeys.toArray(String[]::new))
-                .removeColumns("text", "heightOfElement", "weightOfElement", "fullCss", "childCount")
+                .categoricalToInteger("tag")
+                .removeColumns("fullCss")
                 .build();
 
         int numActions = tp.getActionList().size();
@@ -106,34 +97,16 @@ public class Main {
         sparkConf.setMaster("local[*]");
         sparkConf.setAppName("Transform test");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
-        JavaRDD<String> lines = sc.textFile(csvInRes.resolve("input.csv").toString());
+        JavaRDD<String> lines = sc.textFile(input.toString());
         JavaRDD<List<Writable>> reports = lines.map(new StringToWritablesFunction(new CSVRecordReader( ',')));
-
         JavaRDD<List<Writable>> processed = SparkTransformExecutor.execute(reports, tp);
-
         // convert Writable back to string for export
         JavaRDD<String> toSave = processed.map(new WritablesToStringFunction(","));
 
-        SentenceIterator iter = new CollectionSentenceIterator(toSave.collect());
-        TokenizerFactory t = new DefaultTokenizerFactory();
-        t.setTokenPreProcessor(new CommonPreprocessor());
-        Word2Vec vec = new Word2Vec.Builder()
-                .minWordFrequency(2)
-                .iterations(5)
-                .layerSize(100)
-                .seed(42)
-                .windowSize(20)
-                .iterate(iter)
-                .tokenizerFactory(t)
-                .build();
-        vec.fit();
-        WordVectors wordVectors = WordVectorSerializer.fromTableAndVocab(vec.lookupTable(), vec.getVocab());
-
-
-       /* try (CSVWriter writer = new CSVWriter(new FileWriter(output.toFile()), ',')) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(output.toFile()), ',')) {
             writer.writeAll(toSave.collect().stream().map(e -> e.split(",")).collect(Collectors.toList()));
         } catch (IOException e) {
             throw new RuntimeException("Не удалось записать данные в CSV-файл");
-        }*/
+        }
     }
 }

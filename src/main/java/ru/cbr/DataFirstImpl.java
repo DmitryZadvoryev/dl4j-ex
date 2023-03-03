@@ -17,7 +17,7 @@ public class DataFirstImpl {
 
     {
         //tags = new LinkedHashMap<>(tagKeys.stream().collect(Collectors.toMap(k -> k, v -> false)));
-        attributeValues = new LinkedHashMap<>(tagAttrKeys.stream().collect(Collectors.toMap(k -> k, v -> " ")));
+        attributeValues = new LinkedHashMap<>(tagAttrKeys.stream().collect(Collectors.toMap(k -> k, v -> "")));
         //hasAttributes = new LinkedHashMap<>(hasTagAttrKeys.stream().collect(Collectors.toMap(k -> k, v -> false)));
     }
 
@@ -64,14 +64,13 @@ public class DataFirstImpl {
         String[] attributes = this.attributeValues.values().toArray(String[]::new);
         return Stream.of(
                         new String[]{this.tag},
-                        //attributes,
+                        attributes,
                         new String[]{
-                                //this.text,
-                                //Boolean.toString(this.haveText),
+                                this.text,
                                 Long.toString(this.heightOfElement),
                                 Long.toString(this.weightOfElement),
-                                //this.fullCss,
-                                //Long.toString(this.childCount)
+                                this.fullCss,
+                                Long.toString(this.childCount)
         }
                 )
                 .flatMap(Stream::of)
