@@ -60,14 +60,11 @@ public class Main2 {
         int timestamp = LocalDateTime.now().getNano();
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(input.toFile()), ',')) {
-            //writer.writeAll(Collections.singletonList(columnNames.toArray(String[]::new)));
             writer.writeAll(data);
         } catch (IOException e) {
             throw new RuntimeException("Не удалось записать данные в CSV-файл");
         }
 
-        int numLinesToSkip = 1;
-        String delimiter = ",";
         Path output = csv.resolve("output_" + timestamp + ".csv");
         Schema inputDataSchema = new Schema.Builder()
                 .addColumnCategorical("tag", tagKeys)
