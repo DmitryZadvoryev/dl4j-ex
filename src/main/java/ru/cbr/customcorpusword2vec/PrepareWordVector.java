@@ -20,7 +20,6 @@
 package ru.cbr.customcorpusword2vec;
 
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
-import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
 import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
@@ -28,7 +27,6 @@ import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFac
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.cbr.Word2VecExample;
 
 import java.io.File;
 
@@ -60,7 +58,7 @@ public class PrepareWordVector {
         t.setTokenPreProcessor(new CommonPreprocessor());
 
         log.info("Building model....");
-        Word2Vec vec = new Word2Vec.Builder()
+        org.deeplearning4j.models.word2vec.Word2Vec vec = new org.deeplearning4j.models.word2vec.Word2Vec.Builder()
                 .minWordFrequency(2)
                 .iterations(5)
                 .layerSize(100)

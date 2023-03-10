@@ -1,4 +1,4 @@
-package ru.cbr;
+package ru.cbr.customcorpusword2vec;
 
 import org.apache.commons.io.FileUtils;
 
@@ -19,26 +19,32 @@ public class Word2VecExample {
 
     public static void main(String[] args) {
 
-        List<String> parse = Parser2.parse().stream().distinct().map(e->e.replaceAll("[\\_\\-]", " ").replaceAll("\\s+", " ")).collect(Collectors.toList());
-        try {
-            FileUtils.writeLines(all.toFile(), parse);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<String> parse = PageParser.parse()
+                .stream()
+                .distinct()
+                .map(e -> e
+                        .replaceAll("[\\_\\-]", " ")
+                        .replaceAll("\\s+", " ")
+                )
+                .collect(Collectors.toList());
 
-        List<String> buttons = parse.stream().filter(e -> e.contains("but") || e.contains("btn")).collect(Collectors.toList());
+        List<String> buttons = parse.stream()
+                .filter(e -> e.contains("but") || e.contains("btn"))
+                .collect(Collectors.toList());
         Collections.shuffle(buttons);
-        List<String> others = parse.stream().filter(e -> !e.contains("but") && !e.contains("btn")).limit(buttons.size()).collect(Collectors.toList());
+        List<String> others = parse.stream()
+                .filter(e -> !e.contains("but") && !e.contains("btn"))
+                .limit(buttons.size())
+                .collect(Collectors.toList());
         Collections.shuffle(others);
 
         try {
+            //Все элементы для подготовки данных
+            FileUtils.writeLines(all.toFile(), parse);
+            //кнопки
             FileUtils.writeLines(train.resolve("1.txt").toFile(), buttons.subList(0, buttons.size() / 2));
             FileUtils.writeLines(test.resolve("1.txt").toFile(), buttons.subList(buttons.size() / 2, buttons.size()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
+            //other
             FileUtils.writeLines(train.resolve("0.txt").toFile(), others.subList(0, others.size() / 2));
             FileUtils.writeLines(test.resolve("0.txt").toFile(), others.subList(others.size() / 2, others.size()));
         } catch (IOException e) {

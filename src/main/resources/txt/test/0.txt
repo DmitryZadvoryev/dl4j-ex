@@ -1,0 +1,13 @@
+h2 authsocialblock title
+div layout
+div header yalogoblock
+div passp login form
+div passp auth screen passp add account page
+span passpicon passpicon gg passpicon size s
+div authlogininputtoggle input
+span passpicon passpicon vk passpicon size s
+div header
+div passp flex wrapper
+span passp add account page title
+a link link pseudo link view default link weight medium
+a logo logo ya

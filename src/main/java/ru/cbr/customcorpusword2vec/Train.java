@@ -38,14 +38,13 @@ import org.nd4j.evaluation.classification.Evaluation;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.learning.config.RmsProp;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
-import ru.cbr.Word2VecExample;
 
 import java.io.File;
 
 /**
  * This program trains a RNN to predict category of a news headlines.
  * It uses word vector generated from PrepareWordVector.java so please make sure to run that first.
- *
+ * <p>
  * Below are training results with the news data given with this example.
  * ==========================Scores========================================
  * Accuracy:        0.9343
@@ -56,7 +55,7 @@ import java.io.File;
  * <p>
  * <b>KIT Solutions Pvt. Ltd. (www.kitsol.com)</b>
  */
-public class TrainDomElements {
+public class Train {
     public static String DATA_PATH = "";
     public static WordVectors wordVectors;
 
@@ -75,23 +74,23 @@ public class TrainDomElements {
         TokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
 
-        DomIterator iTrain = new DomIterator.Builder()
-            .dataDirectory(DATA_PATH)
-            .wordVectors(wordVectors)
-            .batchSize(batchSize)
-            .truncateLength(truncateReviewsToLength)
-            .tokenizerFactory(tokenizerFactory)
-            .train(true)
-            .build();
+        DataIterator iTrain = new DataIterator.Builder()
+                .dataDirectory(DATA_PATH)
+                .wordVectors(wordVectors)
+                .batchSize(batchSize)
+                .truncateLength(truncateReviewsToLength)
+                .tokenizerFactory(tokenizerFactory)
+                .train(true)
+                .build();
 
-        DomIterator iTest = new DomIterator.Builder()
-            .dataDirectory(DATA_PATH)
-            .wordVectors(wordVectors)
-            .batchSize(batchSize)
-            .tokenizerFactory(tokenizerFactory)
-            .truncateLength(truncateReviewsToLength)
-            .train(false)
-            .build();
+        DataIterator iTest = new DataIterator.Builder()
+                .dataDirectory(DATA_PATH)
+                .wordVectors(wordVectors)
+                .batchSize(batchSize)
+                .tokenizerFactory(tokenizerFactory)
+                .truncateLength(truncateReviewsToLength)
+                .train(false)
+                .build();
 
         //DataSetIterator train = new AsyncDataSetIterator(iTrain,1);
         //DataSetIterator test = new AsyncDataSetIterator(iTest,1);
@@ -103,16 +102,16 @@ public class TrainDomElements {
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
         //Set up network configuration
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-            .updater(new RmsProp(0.0018))
-            .l2(1e-5)
-            .weightInit(WeightInit.XAVIER)
-            .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue).gradientNormalizationThreshold(1.0)
-            .list()
-            .layer( new LSTM.Builder().nIn(inputNeurons).nOut(200)
-                .activation(Activation.TANH).build())
-            .layer(new RnnOutputLayer.Builder().activation(Activation.SOFTMAX)
-                .lossFunction(LossFunctions.LossFunction.MCXENT).nIn(200).nOut(outputs).build())
-            .build();
+                .updater(new RmsProp(0.0018))
+                .l2(1e-5)
+                .weightInit(WeightInit.XAVIER)
+                .gradientNormalization(GradientNormalization.ClipElementWiseAbsoluteValue).gradientNormalizationThreshold(1.0)
+                .list()
+                .layer(new LSTM.Builder().nIn(inputNeurons).nOut(200)
+                        .activation(Activation.TANH).build())
+                .layer(new RnnOutputLayer.Builder().activation(Activation.SOFTMAX)
+                        .lossFunction(LossFunctions.LossFunction.MCXENT).nIn(200).nOut(outputs).build())
+                .build();
 
         MultiLayerNetwork net = new MultiLayerNetwork(conf);
         net.init();
@@ -125,7 +124,7 @@ public class TrainDomElements {
         Evaluation eval = net.evaluate(iTest);
         System.out.println(eval.stats());
 
-        net.save(new File(Word2VecExample.build.toString(),"DomElementModel.net"), true);
+        net.save(new File(Word2VecExample.build.toString(), "DomElementModel.net"), true);
         System.out.println("----- Example complete -----");
     }
 

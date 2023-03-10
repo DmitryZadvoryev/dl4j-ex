@@ -1,4 +1,4 @@
-package ru.cbr;
+package ru.cbr.customcorpusword2vec;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class Parser2 {
+public class PageParser {
 
     public static List<String> parse() {
 
@@ -27,7 +27,7 @@ public class Parser2 {
         FirefoxDriver driver = new FirefoxDriver(options);
         WebDriverRunner.setWebDriver(driver);
         List<String> pages = Arrays.asList("https://passport.yandex.ru", "https://ya.ru", "https://market.yandex.ru/");
-        pages.forEach(p->{
+        pages.forEach(p -> {
             Selenide.open(p);
 
             try {
