@@ -179,8 +179,8 @@ public class Test extends JFrame {
 
         tokenizerFactory = new DefaultTokenizerFactory();
         tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
-        net = MultiLayerNetwork.load(Word2VecExample.build.resolve("DomElementModel.net").toFile(), true);
-        wordVectors = WordVectorSerializer.readWord2VecModel(Word2VecExample.build.resolve("DomWordVector.txt").toFile());
+        net = MultiLayerNetwork.load(new File(ClassLoader.getSystemResource("txt/DomElementModel.net").getFile()), true);
+        wordVectors = WordVectorSerializer.readWord2VecModel(new File(ClassLoader.getSystemResource("txt/DomWordVector.txt").getFile()));
     }
 
     // One news story gets transformed into a dataset with one element.
