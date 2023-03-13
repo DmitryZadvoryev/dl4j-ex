@@ -14,7 +14,7 @@ public class CategoriesPanel extends JPanel {
      * @param categories например, ["button", "other"]
      */
     public CategoriesPanel(java.util.List<String> categories) {
-        super(new FlowLayout());
+        super(new FlowLayout(FlowLayout.LEADING));
         model = new CategoriesPanelModel(categories, this); // заполняет Categories.LIST
     }
 
