@@ -47,7 +47,11 @@ public class Category implements Comparable<Category> {
      * @param sum сумма всех выходных сигналов НС
      */
     public void reCalcPercent(BigDecimal sum) {
-        percent.set(bigDecimalValue().multiply(HUNDRED).divide(sum, RoundingMode.HALF_UP));
+        try {
+            percent.set(bigDecimalValue().multiply(HUNDRED).divide(sum, RoundingMode.HALF_UP));
+        } catch (ArithmeticException e) {
+            System.out.println("error in reCalcPercent(..): " + e.getMessage());
+        }
     }
 
 

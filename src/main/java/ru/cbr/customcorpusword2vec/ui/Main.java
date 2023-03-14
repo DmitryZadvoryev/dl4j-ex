@@ -34,10 +34,10 @@ public class Main {
 //        MultiLayerNetwork net = MultiLayerNetwork.load(Word2VecExample.build.resolve("DomElementModel.net").toFile(), true);
 //        Word2Vec wordVectors = WordVectorSerializer.readWord2VecModel(Word2VecExample.build.resolve("DomWordVector.txt").toFile());
 
-        NS ns = new NS();
+        NS ns = new NS(); // нейронка
         new MainFrame(categories(), ns)
                 .setVisible(true);
-        startDriver();
+//        startDriver();
     }
 
     public static void startDriver() {
