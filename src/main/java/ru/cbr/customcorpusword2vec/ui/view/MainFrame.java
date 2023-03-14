@@ -1,5 +1,6 @@
 package ru.cbr.customcorpusword2vec.ui.view;
 
+import com.alee.laf.text.WebTextArea;
 import ru.cbr.customcorpusword2vec.ui.model.HistoryListModel;
 import ru.cbr.customcorpusword2vec.ui.model.NS;
 import ru.cbr.customcorpusword2vec.ui.viewmodel.HistoryItemRenderer;
@@ -18,7 +19,7 @@ public class MainFrame extends JFrame {
     public MainFrame(java.util.List<String> categoryNames, NS ns) {
         model = new MainFrameModel(this, ns);
         jScrollPane2 = new JScrollPane();   // wraps input below
-        jTextArea = new JTextArea();        // input
+        jTextArea = new WebTextArea();        // input
         jButton1 = new JButton();           // grab $0
         jButton2 = new JButton();           // note - add the result in the list
         jButton3 = new JButton();           // save
@@ -53,6 +54,8 @@ public class MainFrame extends JFrame {
             }// </editor-fold>
         });
         jTextArea.setBorder(new EmptyBorder(4, 4, 4, 4));
+        jTextArea.setInputPrompt("Введите текст...");
+//        jTextArea.;
         jScrollPane2.setViewportView(jTextArea);
 
         Font buttonFont = new Font("Consolas", 0, 12); // NOI18N
@@ -133,7 +136,7 @@ public class MainFrame extends JFrame {
     private CategoriesPanel jPanel1;
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
-    private JTextArea jTextArea;
+    private WebTextArea jTextArea;
     // End of variables declaration
 
 
@@ -166,7 +169,7 @@ public class MainFrame extends JFrame {
         return jScrollPane2;
     }
 
-    public JTextArea getTextArea() {
+    public WebTextArea getTextArea() {
         return jTextArea;
     }
 

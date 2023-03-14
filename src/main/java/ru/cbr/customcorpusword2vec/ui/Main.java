@@ -1,5 +1,6 @@
 package ru.cbr.customcorpusword2vec.ui;
 
+import com.alee.laf.WebLookAndFeel;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -8,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import ru.cbr.customcorpusword2vec.ui.model.NS;
 import ru.cbr.customcorpusword2vec.ui.view.MainFrame;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
@@ -19,20 +21,22 @@ public class Main {
     public static void main(String[] args) throws Exception {
 //        try {
 //            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
+//                if ("Windows".equals(info.getName())) {
 //                    UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }
 //            }
 //        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
 //                UnsupportedLookAndFeelException ex) {
-//            Logger.getLogger(TestPercentage.class.getName()).log(Level.SEVERE, null, ex);
+////            Logger.getLogger(TestPercentage.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
 //        DefaultTokenizerFactory tokenizerFactory = new DefaultTokenizerFactory();
 //        tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor());
 //        MultiLayerNetwork net = MultiLayerNetwork.load(Word2VecExample.build.resolve("DomElementModel.net").toFile(), true);
 //        Word2Vec wordVectors = WordVectorSerializer.readWord2VecModel(Word2VecExample.build.resolve("DomWordVector.txt").toFile());
+
+        WebLookAndFeel.install();
 
         NS ns = new NS(); // нейронка
         new MainFrame(categories(), ns)

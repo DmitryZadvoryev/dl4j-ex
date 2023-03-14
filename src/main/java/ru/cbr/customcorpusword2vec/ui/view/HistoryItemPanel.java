@@ -89,17 +89,4 @@ public class HistoryItemPanel extends JPanel {
                 "<br>" + jPanel1;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HistoryItemPanel that = (HistoryItemPanel) o;
-        return Objects.equals(jTextArea1.getText(), that.jTextArea1.getText()) && Objects.equals(jLabel1.getText(), that.jLabel1.getText());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(jLabel1.getText(), jTextArea1.getText());
-    }
-
 }

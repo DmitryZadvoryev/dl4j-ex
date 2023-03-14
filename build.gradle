@@ -12,6 +12,9 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    // https://mvnrepository.com/artifact/com.weblookandfeel/weblaf-ui
+    implementation group: 'com.weblookandfeel', name: 'weblaf-ui', version: '1.2.13'
+
     // https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform
     implementation 'org.nd4j:nd4j-native-platform:1.0.0-M2.1'
     // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core

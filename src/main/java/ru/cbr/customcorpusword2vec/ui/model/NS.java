@@ -39,7 +39,7 @@ public class NS {
         try {
             predicted = net.output(fet, false);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            System.out.println("exc in NS.update(..): " + e.getMessage());
             return;
         }
         long[] arrsiz = predicted.shape();

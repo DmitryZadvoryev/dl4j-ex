@@ -50,7 +50,7 @@ public class Category implements Comparable<Category> {
         try {
             percent.set(bigDecimalValue().multiply(HUNDRED).divide(sum, RoundingMode.HALF_UP));
         } catch (ArithmeticException e) {
-            System.out.println("error in reCalcPercent(..): " + e.getMessage());
+            System.out.println("exc in Category.reCalcPercent(..): " + e.getMessage());
         }
     }
 
