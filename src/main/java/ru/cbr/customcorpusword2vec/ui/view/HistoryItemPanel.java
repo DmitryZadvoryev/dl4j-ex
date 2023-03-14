@@ -4,6 +4,7 @@ import ru.cbr.customcorpusword2vec.ui.model.Categories;
 
 import javax.swing.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class HistoryItemPanel extends JPanel {
 
@@ -20,6 +21,7 @@ public class HistoryItemPanel extends JPanel {
         jTextArea1.setTabSize(4);
         jTextArea1.setWrapStyleWord(true);
         jTextArea1.setAutoscrolls(false);
+        jTextArea1.setText(text);
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel1.setText(
@@ -66,8 +68,38 @@ public class HistoryItemPanel extends JPanel {
 
     // Variables declaration - do not modify
     private final JLabel jLabel1;
-    private final JPanel jPanel1;
+    private final CategoriesPanel jPanel1;
     private final JScrollPane jScrollPane1;
     private final JTextArea jTextArea1;
     // End of variables declaration
+
+    //
+    // GETTERS
+    //
+
+
+    public JTextArea getjTextArea1() {
+        return jTextArea1;
+    }
+
+    public String toHtmlString() {
+        return "<FONT size=2 color=gray>" + jLabel1.getText() + "</FONT>" +
+                "<br>" +
+                "<FONT size=3>" + jTextArea1.getText() + "</FONT>" +
+                "<br>" + jPanel1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HistoryItemPanel that = (HistoryItemPanel) o;
+        return Objects.equals(jTextArea1.getText(), that.jTextArea1.getText()) && Objects.equals(jLabel1.getText(), that.jLabel1.getText());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jLabel1.getText(), jTextArea1.getText());
+    }
+
 }

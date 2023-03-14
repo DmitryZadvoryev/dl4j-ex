@@ -35,7 +35,13 @@ public class NS {
     public void update(List<Category> cats, String text) {
         DataSet testNews = prepareTestData(text);
         INDArray fet = testNews.getFeatures();
-        INDArray predicted = net.output(fet, false);
+        INDArray predicted;
+        try {
+            predicted = net.output(fet, false);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         long[] arrsiz = predicted.shape();
 
         for (int i = 0; i < arrsiz[1]; i++) {
@@ -84,8 +90,13 @@ public class NS {
             }
             int idx = category[i];
             int lastIdx = Math.min(tokens.size(), maxLength);
-            labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);
-            labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);
+            try {
+                labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);
+                labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);
+            } catch (IndexOutOfBoundsException e) {
+                if (!e.getMessage().equals("0"))
+                    throw e;
+            }
         }
 
         return new DataSet(features, labels, featuresMask, labelsMask);

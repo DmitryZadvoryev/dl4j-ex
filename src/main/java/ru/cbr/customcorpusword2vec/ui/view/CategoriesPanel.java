@@ -32,4 +32,21 @@ public class CategoriesPanel extends JPanel {
         return clone;
     }
 
+    /**
+     * @return "button: 25.46  <FONT color=#036600>other: 74.54</FONT>"
+     */
+    @Override
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+        for (Component c : getComponents()) {
+            if (c instanceof JLabel) {
+                JLabel catLabel = (JLabel) c;
+                boolean isMax = model.hasMaxPercFont(catLabel);
+                String text = catLabel.getText(); // например, "button: 25.46"
+                buf.append(isMax ? String.format("<FONT color=#036600>%s</FONT>", text) : text);
+            }
+            buf.append("  ");
+        }
+        return buf.toString();
+    }
 }

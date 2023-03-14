@@ -1,21 +1,19 @@
 package ru.cbr.customcorpusword2vec.ui.view;
 
+import ru.cbr.customcorpusword2vec.ui.model.HistoryListModel;
 import ru.cbr.customcorpusword2vec.ui.model.NS;
+import ru.cbr.customcorpusword2vec.ui.viewmodel.HistoryItemRenderer;
 import ru.cbr.customcorpusword2vec.ui.viewmodel.MainFrameModel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 
 public class MainFrame extends JFrame {
     private final MainFrameModel model;
-    private final DefaultListModel<HistoryItemPanel> historyModel = new DefaultListModel<>();
+    private final HistoryListModel historyModel = new HistoryListModel();
 
     public MainFrame(java.util.List<String> categoryNames, NS ns) {
         model = new MainFrameModel(this, ns);
@@ -29,7 +27,7 @@ public class MainFrame extends JFrame {
         jPanel1 = new CategoriesPanel(categoryNames);    // panel with categories
 
         jTextArea.setColumns(20);
-        jTextArea.setFont(new Font("Consolas", 0, 12)); // NOI18N
+        jTextArea.setFont(new Font("Consolas", 0, 13)); // NOI18N
         jTextArea.setLineWrap(true);
         jTextArea.setRows(2);
         jTextArea.setTabSize(4);
@@ -51,8 +49,10 @@ public class MainFrame extends JFrame {
             }
 
             @Override
-            public void changedUpdate(DocumentEvent documentEvent) { }// </editor-fold>
+            public void changedUpdate(DocumentEvent documentEvent) {
+            }// </editor-fold>
         });
+        jTextArea.setBorder(new EmptyBorder(4, 4, 4, 4));
         jScrollPane2.setViewportView(jTextArea);
 
         Font buttonFont = new Font("Consolas", 0, 12); // NOI18N
@@ -60,6 +60,7 @@ public class MainFrame extends JFrame {
         jButton1.setFont(buttonFont);
         jButton1.setText("$0");
         jButton1.addActionListener(model::onClick_$0);
+        jButton1.setEnabled(false); // selenium не работает с переменной devtools'а $0
 
         jButton2.setFont(buttonFont);
         jButton2.setText("note");
@@ -70,6 +71,7 @@ public class MainFrame extends JFrame {
         jButton3.addActionListener(model::onClick_save);
 
         jList1.setModel(historyModel);
+        jList1.setCellRenderer(new HistoryItemRenderer(historyModel));
 //        jList1.setModel(new AbstractListModel<String>() {
 //            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 //            public int getSize() { return strings.length; }
@@ -117,7 +119,7 @@ public class MainFrame extends JFrame {
         );
 
         setTitle("Control's type identifier");
-        setMinimumSize(new Dimension(400, 160));
+        setMinimumSize(new Dimension(400, 180));
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -168,7 +170,7 @@ public class MainFrame extends JFrame {
         return jTextArea;
     }
 
-    public DefaultListModel<HistoryItemPanel> getHistoryModel() {
+    public HistoryListModel getHistoryModel() {
         return historyModel;
     }
 

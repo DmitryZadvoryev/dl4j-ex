@@ -41,10 +41,16 @@ public class CategoriesPanelModel {
     public void cloneLabelsTo(CategoriesPanel targetPanel) {
         for (Component c : panel.getComponents()) {
             if (c instanceof JLabel) {
-                JLabel label = (JLabel) c;
-                targetPanel.add(new JLabel(label.getText()));
+                JLabel origin = (JLabel) c;
+                JLabel clone = new JLabel(origin.getText());
+                clone.setFont(origin.getFont());
+                targetPanel.add(clone);
             }
         }
+    }
+
+    public boolean hasMaxPercFont(JLabel catLabel) {
+        return catLabel.getFont().equals(MAX_PERC_FONT);
     }
 
 }

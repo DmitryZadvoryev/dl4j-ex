@@ -31,8 +31,29 @@ public class MainFrameModel {
 
     public void onTextChanged(DocumentEvent e) {
         SwingUtilities.invokeLater(() -> {
+            setButton_note();
             ns.update(Categories.LIST, mainFrame.getTextArea().getText());
             Categories.reCalcPercentsAndFindMax();
+        });
+    }
+
+    /**
+     * Задает текст на кнопку {@link MainFrame#getjButton2()}.
+     * По умолчанию "note". Либо "#3", если текст из текстового
+     * поля {@link MainFrame#getTextArea()} уже находится в истории
+     * и имеет номер 3.
+     */
+    public void setButton_note() {
+        SwingUtilities.invokeLater(() -> {
+            String text = "note";
+            boolean enabled = true;
+            int hash = mainFrame.getTextArea().getText().hashCode();
+            if (mainFrame.getHistoryModel().getUniqueItems().containsKey(hash)) {
+                text = "#" + mainFrame.getHistoryModel().getUniqueItems().get(hash);
+                enabled = false;
+            }
+            mainFrame.getjButton2().setText(text);
+            mainFrame.getjButton2().setEnabled(enabled);
         });
     }
 
@@ -47,7 +68,7 @@ public class MainFrameModel {
         SwingUtilities.invokeLater(() -> {
             if (WebDriverRunner.hasWebDriverStarted()) {
                 Object text$0 = ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript(
-                        "return $0.tagName.toLowerCase() + ' ' +  $0.getAttribute('class').toLowerCase()");
+                        "return $0.tagName.toLowerCase() + ' ' +  $0.getAttribute('class').toLowerCase();");
                 mainFrame.getTextArea().setText((String) text$0);
             }
         });
@@ -64,6 +85,7 @@ public class MainFrameModel {
         SwingUtilities.invokeLater(() -> {
             HistoryItemPanel item = new HistoryItemPanel(mainFrame.getTextArea().getText(), mainFrame.getjPanel1());
             mainFrame.getHistoryModel().add(0, item);
+            setButton_note();
         });
     }
 
